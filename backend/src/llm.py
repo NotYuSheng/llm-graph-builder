@@ -92,7 +92,8 @@ def get_llm(model: str):
         )
 
     elif "ollama" in model:
-        model_name, base_url = env_value.split(",")
+        #model_name, base_url = env_value.split(",")
+        model_name, base_url = "llama3", "http://host.docker.internal:11434"
         llm = ChatOllama(base_url=base_url, model=model_name)
 
     elif "diffbot" in model:
