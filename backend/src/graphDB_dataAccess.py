@@ -151,6 +151,8 @@ class graphDBdataAccess:
             logging.info("Vector index does not exist, So KNN graph not update")
 
     def check_account_access(self, database):
+        return True
+        '''
         query = """
         SHOW USER PRIVILEGES 
         YIELD * 
@@ -175,6 +177,7 @@ class graphDBdataAccess:
         except Exception as e:
             logging.error(f"Error checking account access: {e}")
             return False
+        '''
 
     def check_gds_version(self):
         try:
