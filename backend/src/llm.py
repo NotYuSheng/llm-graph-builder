@@ -24,6 +24,7 @@ def get_llm(model: str):
     env_key = "LLM_MODEL_CONFIG_" + model
     env_value = os.environ.get(env_key)
     logging.info("Model: {}".format(env_key))
+    #model = "openai"
     
     if "gemini" in model:
         model_name = env_value
@@ -45,13 +46,23 @@ def get_llm(model: str):
         )
     elif "openai" in model:
         #model_name = MODEL_VERSIONS[model]
+        model_name, api_key = "microsoft/Phi-3-mini-4k-instruct", "token-abc123"
+        llm = ChatOpenAI(
+            #base_url="http://192.168.1.2:8000/v1",
+            openai_api_base="http://192.168.1.2:8000/v1",
+            api_key=api_key,
+            model=model_name,
+            temperature=0,
+        )
+        """
         model_name, api_key = env_value.split(",")
         llm = ChatOpenAI(
             api_key=api_key,
             model=model_name,
             temperature=0,
         )
-
+        """
+        
     elif "azure" in model:
         model_name, api_endpoint, api_key, api_version = env_value.split(",")
         llm = AzureChatOpenAI(
@@ -92,9 +103,22 @@ def get_llm(model: str):
         )
 
     elif "ollama" in model:
-        #model_name, base_url = env_value.split(",")
-        model_name, base_url = "llama3", "http://host.docker.internal:11434"
-        llm = ChatOllama(base_url=base_url, model=model_name)
+        #model_name, base_url = "qwen:7b-chat", "http://host.docker.internal:11434"
+        #model_name, base_url = "llama3", "http://host.docker.internal:11434"
+        #model_name, base_url = "qwen2.5:14b", "http://host.docker.internal:11434"
+        #model_name, base_url = "llama3:instruct", "http://localhost:11434"
+        #llm = ChatOllama(base_url=base_url, model=model_name)
+        
+        
+        model_name, api_key = "microsoft/Phi-3-mini-4k-instruct", "token-abc123"
+        llm = ChatOpenAI(
+            #base_url="http://192.168.1.2:8000/v1",
+            openai_api_base="http://192.168.1.2:8000/v1",
+            api_key=api_key,
+            model=model_name,
+            temperature=0,
+        )
+        #model_name = "llama3"
 
     elif "diffbot" in model:
         #model_name = "diffbot"
