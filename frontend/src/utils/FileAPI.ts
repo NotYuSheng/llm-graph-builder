@@ -37,7 +37,10 @@ export const extractAPI = async (
   gcs_project_id?: string,
   language?: string,
   access_token?: string,
-  additional_instructions?: string
+  additional_instructions?: string,
+  custom_endpoint_url?: string,
+  custom_model_name?: string,
+  custom_api_key?: string
 ): Promise<any> => {
   const urlExtract = `${url()}/extract`;
   const method: Method = 'post';
@@ -57,6 +60,9 @@ export const extractAPI = async (
       chunks_to_combine,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   } else if (source_type === 'Wikipedia') {
     additionalParams = {
@@ -72,6 +78,9 @@ export const extractAPI = async (
       language,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   } else if (source_type === 'gcs bucket') {
     additionalParams = {
@@ -90,6 +99,9 @@ export const extractAPI = async (
       access_token,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   } else if (source_type === 'youtube') {
     additionalParams = {
@@ -104,6 +116,9 @@ export const extractAPI = async (
       chunks_to_combine,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   } else if (source_type === 'web-url') {
     additionalParams = {
@@ -118,6 +133,9 @@ export const extractAPI = async (
       chunks_to_combine,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   } else {
     additionalParams = {
@@ -131,6 +149,9 @@ export const extractAPI = async (
       chunks_to_combine,
       retry_condition,
       additional_instructions,
+      custom_endpoint_url,
+      custom_model_name,
+      custom_api_key,
     };
   }
   const response = await apiCall(urlExtract, method, additionalParams);

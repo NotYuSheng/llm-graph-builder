@@ -41,6 +41,9 @@ const FileContextProvider: FC<FileContextProviderProps> = ({ children }) => {
     new Queue(JSON.parse(persistedQueue ?? JSON.stringify({ queue: [] })).queue)
   );
   const [model, setModel] = useState<string>(isProdDefaultModel ? selectedModel : isProdEnv ? PRODMODLES[0] : llms[0]);
+  const [customEndpointUrl, setCustomEndpointUrl] = useState<string>('');
+  const [customModelName, setCustomModelName] = useState<string>('');
+  const [customApiKey, setCustomApiKey] = useState<string>('');
   const [graphType, setGraphType] = useState<string>('Knowledge Graph Entities');
   const [selectedNodes, setSelectedNodes] = useState<readonly OptionType[]>([]);
   const [selectedRels, setSelectedRels] = useState<readonly OptionType[]>([]);
@@ -153,6 +156,12 @@ const FileContextProvider: FC<FileContextProviderProps> = ({ children }) => {
     setFilesData,
     model,
     setModel,
+    customEndpointUrl,
+    setCustomEndpointUrl,
+    customModelName,
+    setCustomModelName,
+    customApiKey,
+    setCustomApiKey,
     graphType,
     setGraphType,
     selectedRels,

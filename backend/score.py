@@ -218,7 +218,10 @@ async def extract_knowledge_graph_from_file(
     access_token=Form(None),
     retry_condition=Form(None),
     additional_instructions=Form(None),
-    email=Form(None)
+    email=Form(None),
+    custom_endpoint_url=Form(None),
+    custom_model_name=Form(None),
+    custom_api_key=Form(None)
 ):
     """
     Calls 'extract_graph_from_file' in a new thread to create Neo4jGraph from a
@@ -236,6 +239,15 @@ async def extract_knowledge_graph_from_file(
     """
     try:
         start_time = time.time()
+        
+        # Handle custom endpoint by temporarily setting environment variable
+        original_env_value = None
+        if model == "custom_endpoint" and custom_endpoint_url and custom_model_name and custom_api_key:
+            env_key = f"LLM_MODEL_CONFIG_{model}"
+            env_value = f"{custom_model_name},{custom_endpoint_url},{custom_api_key}"
+            original_env_value = os.environ.get(env_key)
+            os.environ[env_key] = env_value
+        
         graph = create_graph_database_connection(uri, userName, password, database)   
         graphDb_data_Access = graphDBdataAccess(graph)
         if source_type == 'local file':
@@ -330,6 +342,13 @@ async def extract_knowledge_graph_from_file(
         logging.exception(f'File Failed in extraction: {e}')
         return create_api_response('Failed', message=message + error_message[:100], error=error_message, file_name = file_name)
     finally:
+        # Clean up custom endpoint environment variable if it was set
+        if model == "custom_endpoint" and custom_endpoint_url and custom_model_name and custom_api_key:
+            env_key = f"LLM_MODEL_CONFIG_{model}"
+            if original_env_value is not None:
+                os.environ[env_key] = original_env_value
+            else:
+                os.environ.pop(env_key, None)
         gc.collect()
             
 @app.post("/sources_list")
@@ -415,10 +434,19 @@ async def post_processing(uri=Form(None), userName=Form(None), password=Form(Non
         gc.collect()
                 
 @app.post("/chat_bot")
-async def chat_bot(uri=Form(None),model=Form(None),userName=Form(None), password=Form(None), database=Form(None),question=Form(None), document_names=Form(None),session_id=Form(None),mode=Form(None),email=Form(None)):
+async def chat_bot(uri=Form(None),model=Form(None),userName=Form(None), password=Form(None), database=Form(None),question=Form(None), document_names=Form(None),session_id=Form(None),mode=Form(None),email=Form(None),custom_endpoint_url=Form(None),custom_model_name=Form(None),custom_api_key=Form(None)):
     logging.info(f"QA_RAG called at {datetime.now()}")
     qa_rag_start_time = time.time()
+    
+    # Handle custom endpoint by temporarily setting environment variable
+    original_env_value = None
     try:
+        if model == "custom_endpoint" and custom_endpoint_url and custom_model_name and custom_api_key:
+            env_key = f"LLM_MODEL_CONFIG_{model}"
+            env_value = f"{custom_model_name},{custom_endpoint_url},{custom_api_key}"
+            original_env_value = os.environ.get(env_key)
+            os.environ[env_key] = env_value
+            
         if mode == "graph":
             graph = Neo4jGraph( url=uri,username=userName,password=password,database=database,sanitize = True, refresh_schema=True)
         else:
@@ -444,6 +472,13 @@ async def chat_bot(uri=Form(None),model=Form(None),userName=Form(None), password
         logging.exception(f'Exception in chat bot:{error_message}')
         return create_api_response(job_status, message=message, error=error_message,data=mode)
     finally:
+        # Clean up custom endpoint environment variable if it was set
+        if model == "custom_endpoint" and custom_endpoint_url and custom_model_name and custom_api_key:
+            env_key = f"LLM_MODEL_CONFIG_{model}"
+            if original_env_value is not None:
+                os.environ[env_key] = original_env_value
+            else:
+                os.environ.pop(env_key, None)
         gc.collect()
 
 @app.post("/chunk_entities")

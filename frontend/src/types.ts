@@ -884,6 +884,12 @@ export interface FileContextType {
   setFilesData: Dispatch<SetStateAction<CustomFile[]>>;
   model: string;
   setModel: Dispatch<SetStateAction<string>>;
+  customEndpointUrl: string;
+  setCustomEndpointUrl: Dispatch<SetStateAction<string>>;
+  customModelName: string;
+  setCustomModelName: Dispatch<SetStateAction<string>>;
+  customApiKey: string;
+  setCustomApiKey: Dispatch<SetStateAction<string>>;
   graphType: string;
   setGraphType: Dispatch<SetStateAction<string>>;
   selectedTokenChunkSize: number;

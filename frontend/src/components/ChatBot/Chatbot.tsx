@@ -64,7 +64,7 @@ const Chatbot: FC<ChatbotProps> = (props) => {
   } = props;
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(isLoading);
-  const { model, chatModes, selectedRows, filesData } = useFileContext();
+  const { model, customEndpointUrl, customModelName, customApiKey, chatModes, selectedRows, filesData } = useFileContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   const [sourcesModal, setSourcesModal] = useState<string[]>([]);
@@ -219,7 +219,10 @@ const Chatbot: FC<ChatbotProps> = (props) => {
           sessionId,
           model,
           mode,
-          selectedFileNames?.map((f) => f.name)
+          selectedFileNames?.map((f) => f.name),
+          customEndpointUrl,
+          customModelName,
+          customApiKey
         )
       );
       setInputMessage('');

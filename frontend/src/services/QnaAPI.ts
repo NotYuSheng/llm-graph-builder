@@ -5,7 +5,10 @@ export const chatBotAPI = async (
   session_id: string,
   model: string,
   mode: string,
-  document_names?: (string | undefined)[]
+  document_names?: (string | undefined)[],
+  custom_endpoint_url?: string,
+  custom_model_name?: string,
+  custom_api_key?: string
 ) => {
   try {
     const formData = new FormData();
@@ -14,6 +17,9 @@ export const chatBotAPI = async (
     formData.append('model', model);
     formData.append('mode', mode);
     formData.append('document_names', JSON.stringify(document_names));
+    if (custom_endpoint_url) formData.append('custom_endpoint_url', custom_endpoint_url);
+    if (custom_model_name) formData.append('custom_model_name', custom_model_name);
+    if (custom_api_key) formData.append('custom_api_key', custom_api_key);
     const startTime = Date.now();
     const response = await api.post(`/chat_bot`, formData, {
       headers: {

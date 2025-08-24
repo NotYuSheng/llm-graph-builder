@@ -48,6 +48,7 @@ import PostProcessingToast from './Popups/GraphEnhancementDialog/PostProcessingC
 import { getChunkText } from '../services/getChunkText';
 import ChunkPopUp from './Popups/ChunkPopUp';
 import { isExpired, isFileReadyToProcess } from '../utils/Utils';
+import CustomEndpointConfig from './UI/CustomEndpointConfig';
 import { useHasSelections } from '../hooks/useHasSelections';
 import { ChevronUpIconOutline, ChevronDownIconOutline } from '@neo4j-ndl/react/icons';
 import { ThemeWrapperContext } from '../context/ThemeWrapper';
@@ -122,6 +123,9 @@ const Content: React.FC<ContentProps> = ({
     setProcessedCount,
     setchatModes,
     model,
+    customEndpointUrl,
+    customModelName,
+    customApiKey,
     additionalInstructions,
     setAdditionalInstructions,
   } = useFileContext();
@@ -322,7 +326,10 @@ const Content: React.FC<ContentProps> = ({
         fileItem.googleProjectId,
         fileItem.language,
         fileItem.accessToken,
-        additionalInstructions
+        additionalInstructions,
+        customEndpointUrl,
+        customModelName,
+        customApiKey
       );
       if (apiResponse?.status === 'Failed') {
         let errorobj = { error: apiResponse.error, message: apiResponse.message, fileName: apiResponse.file_name };
@@ -1018,7 +1025,7 @@ const Content: React.FC<ContentProps> = ({
         ></FileTable>
 
         <Flex className={`p-2.5  mt-1.5 absolute bottom-0 w-full`} justifyContent='space-between' flexDirection={'row'}>
-          <div>
+          <div className="flex flex-col gap-2">
             <DropdownComponent
               onSelect={handleDropdownChange}
               options={llms ?? ['']}
@@ -1027,6 +1034,7 @@ const Content: React.FC<ContentProps> = ({
               view='ContentView'
               isDisabled={false}
             />
+            <CustomEndpointConfig />
           </div>
           <Flex flexDirection='row' gap='4' className='self-end mb-2.5' flexWrap='wrap'>
             <SpotlightTarget id='generategraphbtn'>

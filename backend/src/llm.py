@@ -16,7 +16,6 @@ import google.auth
 from src.shared.constants import ADDITIONAL_INSTRUCTIONS
 from src.shared.llm_graph_builder_exception import LLMGraphBuilderException
 import re
-from typing import List
 
 def get_llm(model: str):
     """Retrieve the specified language model based on the model name."""
@@ -103,6 +102,15 @@ def get_llm(model: str):
         elif "ollama" in model:
             model_name, base_url = env_value.split(",")
             llm = ChatOllama(base_url=base_url, model=model_name)
+
+        elif model == "custom_endpoint":
+            model_name, api_endpoint, api_key = env_value.split(",")
+            llm = ChatOpenAI(
+                api_key=api_key,
+                base_url=api_endpoint,
+                model=model_name,
+                temperature=0,
+            )
 
         elif "diffbot" in model:
             #model_name = "diffbot"
