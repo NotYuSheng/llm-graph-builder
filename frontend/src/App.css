@@ -393,22 +393,22 @@
 .layout-wrapper {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 64px 1fr minmax(min-content,4fr) 1.1fr 64px;
+  grid-template-columns: 64px 1fr minmax(min-content,6fr) 1fr 64px;
   max-height: calc(100vh - 58px);
   max-width: 100%;
 }
 
 .layout-wrapper.drawerdropzoneclosed {
-  grid-template-columns: 64px 4fr 1.1fr 64px;
+  grid-template-columns: 64px 6fr 1fr 64px;
 
 }
 
 .layout-wrapper.drawerchatbotclosed {
-  grid-template-columns: 64px 0.6fr minmax(min-content, 4fr) 64px;
+  grid-template-columns: 64px 1fr minmax(min-content, 6fr) 64px;
 }
 
 .layout-wrapper.drawerclosed {
-  grid-template-columns: 64px minmax(min-content, 4fr) 64px;
+  grid-template-columns: 64px minmax(min-content, 8fr) 64px;
 }
 
 .main-content-wrapper {
@@ -421,14 +421,14 @@
 
 @media screen and (min-width:1025px) and (max-width:1440px){
   .layout-wrapper{
-    grid-template-columns: 64px 1fr minmax(min-content,4fr) minmax(min-content,2fr) 64px;
+    grid-template-columns: 64px 1fr minmax(min-content,6fr) minmax(min-content,1.5fr) 64px;
 
     }
 }
 
 @media screen and (min-width:1536px) and (max-width:2560px) {
   .layout-wrapper {
-    grid-template-columns: 64px 1fr minmax(min-content, 6.5fr) minmax(max-content, 1fr) 64px;
+    grid-template-columns: 64px 1fr minmax(min-content, 8fr) minmax(max-content, 1fr) 64px;
 
   }
 }

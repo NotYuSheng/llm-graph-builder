@@ -202,6 +202,7 @@ const PageLayout: React.FC = () => {
     setSourceOptions,
     setTargetOptions,
     setTypeOptions,
+    filesData,
   } = useFileContext();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth0();
@@ -233,6 +234,13 @@ const PageLayout: React.FC = () => {
       setCombinedRelsVal(selectedRels as OptionType[]);
     }
   }, [allPatterns, selectedNodes, selectedRels]);
+
+  // Auto-expand left drawer when files are loaded
+  useEffect(() => {
+    if (filesData.length > 0 && !isLeftExpanded && isLargeDesktop) {
+      setIsLeftExpanded(true);
+    }
+  }, [filesData.length, isLeftExpanded, isLargeDesktop]);
 
   useEffect(() => {
     async function initializeConnection() {
