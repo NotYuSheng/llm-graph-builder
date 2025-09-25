@@ -39,11 +39,11 @@ export default function ConnectionModal({
   }
   const protocols = ['neo4j', 'neo4j+s', 'neo4j+ssc', 'bolt', 'bolt+s', 'bolt+ssc'];
   const [protocol, setProtocol] = useState<string>(initialprotocol ?? 'neo4j+s');
-  const [URI, setURI] = useState<string>(initialuri ?? '');
+  const [URI, setURI] = useState<string>(initialuri ?? `${window.location.hostname}:7687`);
   const [port, setPort] = useState<string>(initialport ?? '7687');
   const [database, setDatabase] = useState<string>(initialdb ?? 'neo4j');
   const [username, setUsername] = useState<string>(initialusername ?? 'neo4j');
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<string>('P@ssw0rd');
   const [connectionMessage, setMessage] = useState<Message | null>({ type: 'unknown', content: '' });
   const { user } = useAuth0();
   const {

@@ -27,10 +27,7 @@ import { chatModeLables, EXPIRATION_DAYS } from './Constants';
 
 // Get the Url
 export const url = () => {
-  let url = window.location.href.replace('5173', '8000');
-  if (process.env.VITE_BACKEND_API_URL) {
-    url = process.env.VITE_BACKEND_API_URL;
-  }
+  let url = '/neo4j-backend';
   return !url || !url.match('/$') ? url : url.substring(0, url.length - 1);
 };
 

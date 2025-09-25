@@ -174,3 +174,6 @@ newenv
 files
 startupbackend.sh
 startupfrontend.sh
+
+CLAUDE.md
+neo4j_db/
